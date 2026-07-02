@@ -188,8 +188,8 @@ public class PostService {
             Reply reply,
             Map<Long, List<Reply>> childrenByParentId,
             int depth) {
-        thread.add(new ReplyThreadItem(reply, depth));
         List<Reply> children = childrenByParentId.getOrDefault(reply.getId(), List.of());
+        thread.add(new ReplyThreadItem(reply, depth, children.isEmpty()));
         for (Reply child : children) {
             appendReply(thread, child, childrenByParentId, depth + 1);
         }

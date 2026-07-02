@@ -255,6 +255,8 @@ class PostServiceTest {
                 .containsExactly("親返信", "子返信", "別の親返信");
         assertThat(actual).extracting(ReplyThreadItem::depth)
                 .containsExactly(0, 1, 0);
+        assertThat(actual).extracting(ReplyThreadItem::replyFormAvailable)
+                .containsExactly(false, true, true);
     }
 
     @Test

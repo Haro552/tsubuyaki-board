@@ -200,8 +200,8 @@ class PostControllerTest {
         setId(childReply, 11L);
         given(postService.findDetailPost(1L)).willReturn(Optional.of(post));
         given(postService.findReplyThread(1L)).willReturn(List.of(
-                new ReplyThreadItem(rootReply, 0),
-                new ReplyThreadItem(childReply, 1)));
+                new ReplyThreadItem(rootReply, 0, false),
+                new ReplyThreadItem(childReply, 1, true)));
 
         String html = mockMvc.perform(get("/posts/1"))
                 .andExpect(status().isOk())
@@ -214,7 +214,8 @@ class PostControllerTest {
                 .andExpect(content().string(not(containsString("↳alice"))))
                 .andExpect(content().string(containsString("親返信です")))
                 .andExpect(content().string(containsString("返信への返信です")))
-                .andExpect(content().string(containsString("name=\"parentReplyId\" value=\"10\"")))
+                .andExpect(content().string(not(containsString("name=\"parentReplyId\" value=\"10\""))))
+                .andExpect(content().string(containsString("name=\"parentReplyId\" value=\"11\"")))
                 .andExpect(content().string(containsString("name=\"read\"")))
                 .andExpect(content().string(not(containsString("class=\"post__reply-authors\""))))
                 .andExpect(content().string(not(containsString("<button type=\"submit\">更新</button>"))))

@@ -90,6 +90,7 @@
                     </label>
                 </form>
                 <form class="reply-form reply-form--child"
+                      th:if="${replyItem.replyFormAvailable}"
                       th:action="@{/posts/{id}/replies(id=${post.id})}"
                       method="post">
                     <input th:if="${_csrf != null}" type="hidden"
